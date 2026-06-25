@@ -1,29 +1,3 @@
-#!/usr/bin/env python3
-"""
-yt_playlist_transcripts.py
-
-Scrape transcripts for every video in a YouTube playlist into a single combined
-Markdown file, with each video clearly delimited and split under its chapter
-("section") headings when it has them. Built for feeding a whole playlist into
-an LLM for analysis.
-
-Single external dependency: yt-dlp.
-
-    pip install yt-dlp
-    python yt_playlist_transcripts.py "<playlist-url>" --out transcripts
-
-Design notes:
-- yt-dlp enumerates the playlist, exposes per-video `chapters`, and hands back
-  caption-track URLs. No second transcript library.
-- Captions are pulled in YouTube's json3 format (one clean event per utterance
-  with a precise start time). VTT is parsed only as a fallback.
-- "Sections" == YouTube chapters: a separate timestamped list. Each transcript
-  line is bucketed into the latest chapter that has already started.
-- Fetching and formatting are separated. Each video is cached as JSON during
-  the scrape (crash-safe + resumable), then the combined file is assembled from
-  the cache. Re-run with a different --max-words to re-split without re-fetching.
-"""
-
 from __future__ import annotations
 
 import argparse
